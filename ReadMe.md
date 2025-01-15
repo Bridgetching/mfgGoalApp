@@ -8,21 +8,40 @@
 Make sure your AWS CLI credentials are configured with the region you are working on.
 
 ## 1 - get login token- this helps for security (Optional).
-- $ aws ecr get-login-password --region us-east-1
+- When you run the below command it will give a secure token session that will last for about 4 hours.
+- Specify the correct region.
+- After that run command 2.
+```
+aws ecr get-login-password --region us-east-1
+```
 
 ## 2 - login to ecr.
-- $ aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin {give-aws-account-number}.dkr.ecr.us-east-1.amazonaws.com 
+- Make sure you insert your account number on the below command before running it.
+```
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin {insert-aws-account-number}.dkr.ecr.us-east-1.amazonaws.com
+```
 
 ## 3 - create ECR repo.
-- $ aws ecr create-repository --repository-name {give-repo-name} --region us-east-1 --image-scanning-configuration scanOnPush=true
+- Insert a name for your repository on the command before running it.
+- Copy the ARN after craeting
+```
+aws ecr create-repository --repository-name {insert-repo-name} --region us-east-1 --image-scanning-configuration scanOnPush=true
+```
 
 ## 4 - Build docker image from source code.
-- $ docker build -t {give-name-of-image} .
-- $ docker images
+- Clone this GitHub repository to you pc and build the docker image.
+```
+docker build -t {insert-name-of-image} .
+docker images
+```
 
 ## 5 - NOTE: copy created repository ARN and use it for tagging.
-- $ docker tag {image-name} {give-aws-account-number}.dkr.ecr.us-east-1.amazonaws.com/{repo-name}:latest
-- $ docker push {give-aws-account-number}.dkr.ecr.us-east-1.amazonaws.com/{repo-name}:latest
+- Here we have to tag our image before pushing to the repository.
+- Use the ECR repository ARN to tag the image with.
+```
+docker tag {image-name} {give-aws-account-number}.dkr.ecr.us-east-1.amazonaws.com/{repo-name}:latest
+docker push {give-aws-account-number}.dkr.ecr.us-east-1.amazonaws.com/{repo-name}:latest
+```
 
 ## 6 - Making sure you successfully pushed the image.
 - $ aws ecr list-images --repository-name {repo-name} --region us-east-1
