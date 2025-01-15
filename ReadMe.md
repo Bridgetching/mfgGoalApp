@@ -41,7 +41,7 @@ docker images
 ## 5 - NOTE: copy created repository ARN and use it for tagging.
 - Here we have to tag our image before pushing to the repository.
 - Use the ECR repository ARN to tag the image with.
-- Run the tag command first before the push command
+- Run the tag command first before the push command.
 ```
 docker tag image-name give-aws-account-number.dkr.ecr.us-east-1.amazonaws.com/repo-name:latest
 docker push insert-aws-account-number.dkr.ecr.us-east-1.amazonaws.com/repo-name:latest
@@ -60,13 +60,17 @@ aws ecr batch-delete-image --repository-name {repo-name} --image-ids imageTag=la
 ```
 
 ## 8 - Delete Repository
-- $ aws ecr delete-repository --repository-name {repo-name} --force --region us-east-1
-
+- This command will delete the repository.
+```
+aws ecr delete-repository --repository-name {repo-name} --force --region us-east-1
+```
 *************************
 ## Pushing Code to CodeCommit
 
 ## 1 Create CodeCommit Repo.
-- $ aws codecommit create-repository --repository-name {repo-name} --repository-description "CodeCommit Demo repository"
+```
+aws codecommit create-repository --repository-name {repo-name} --repository-description "CodeCommit Demo repository"
+```
 
 ## 2 Clone CodeCommit Repo to your PC for normal AWS Admin Access.
 Creating Access keys for CodeCommit:
@@ -77,20 +81,25 @@ Creating Access keys for CodeCommit:
 - Copy CodeCommit https URL and clone on your CLI.
 
 ### FOR NORMAL IAM USERS 
-- $ git clone (https URL)
+```
+git clone (https URL)
+```
 
 ## 2-B Clone CodeCommit for SSO Users.
 - Make sure you have pip installed for SSO users 
 - Configure your IAM credentials and Region.
 
 #FOR SSO USERS [using HTTPS(GRC)] 
-- $ pip install git-remote-codecommit 
-- $ git clone codecommit::us-east-1://{repo-name} 
+```
+pip install git-remote-codecommit 
+git clone codecommit::us-east-1://{repo-name} 
+```
 
 ## 3 Push Code to CodeCommit.
 You could modify the server.js file in order to reflect the difference after your pipeline runs.
-
-- $ git add . 
-- $ git status 
-- $ git commit -m "message" 
-- $ git push origin master 
+```
+git add . 
+git status 
+git commit -m "message" 
+git push origin master
+```
