@@ -29,25 +29,35 @@ aws ecr create-repository --repository-name {insert-repo-name} --region us-east-
 ```
 
 ## 4 - Build docker image from source code.
-- Clone this GitHub repository to you pc and build the docker image.
+- Clone this GitHub repository to your pc and build the docker image.
+- cd mfgGoalApp
+- Run the first below command after inserting the name of your ECR repository making sure the dot is spaced.
+- Run the second command to list the images.
 ```
-docker build -t {insert-name-of-image} .
+docker build -t insert-name-of-image .
 docker images
 ```
 
 ## 5 - NOTE: copy created repository ARN and use it for tagging.
 - Here we have to tag our image before pushing to the repository.
 - Use the ECR repository ARN to tag the image with.
+- Run the tag command first before the push command
 ```
-docker tag {image-name} {give-aws-account-number}.dkr.ecr.us-east-1.amazonaws.com/{repo-name}:latest
-docker push {give-aws-account-number}.dkr.ecr.us-east-1.amazonaws.com/{repo-name}:latest
+docker tag image-name give-aws-account-number.dkr.ecr.us-east-1.amazonaws.com/repo-name:latest
+docker push insert-aws-account-number.dkr.ecr.us-east-1.amazonaws.com/repo-name:latest
 ```
 
 ## 6 - Making sure you successfully pushed the image.
-- $ aws ecr list-images --repository-name {repo-name} --region us-east-1
+- List images command below.
+```
+aws ecr list-images --repository-name repo-name --region us-east-1
+```
 
 ## 7 - Delete image
-- $ aws ecr batch-delete-image --repository-name {repo-name} --image-ids imageTag=latest --region us-east-1
+- This command is used to delete images from ECR.
+```
+aws ecr batch-delete-image --repository-name {repo-name} --image-ids imageTag=latest --region us-east-1
+```
 
 ## 8 - Delete Repository
 - $ aws ecr delete-repository --repository-name {repo-name} --force --region us-east-1
